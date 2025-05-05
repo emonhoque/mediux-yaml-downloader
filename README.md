@@ -27,9 +27,19 @@ pip install requests pyyaml
 
 ## 🛠️ How to Use
 
-### 1. Clone this repository or [download `mediux_titlecards_gui.py`](./mediux_titlecards_gui.py).
+### 1. Copy YAML from Mediux
 
-### 2. Insert your TMDb API key:
+Click the `YAML` button on a Mediux set page to copy the configuration.
+
+![Copy YAML from Mediux](img/img1.png)
+
+Then copy the generated YAML block:
+
+![YAML Config](img/img2.png)
+
+### 2. Clone this repository or [download `mediux_titlecards_gui.py`](./mediux_titlecards_gui.py).
+
+### 3. Insert your TMDb API key
 
 Open `mediux_titlecards_gui.py` and replace:
 
@@ -37,22 +47,31 @@ Open `mediux_titlecards_gui.py` and replace:
 TMDB_API_KEY = "INSERT_TMDB_API_KEY"
 ```
 
-with your personal API key from [https://www.themoviedb.org/settings/api](https://www.themoviedb.org/settings/api).
+with your personal API key from [TMDb Settings](https://www.themoviedb.org/settings/api).
 
-### 3. Set your preferred default download location:
+### 4. Set your preferred default download location
+
 Edit the `DEFAULT_FOLDER` variable in the script:
 
 ```python
 DEFAULT_FOLDER = r"C:/Default/Destination/TitleCards"
 ```
 
-This sets the folder where title cards will be downloaded by default (you can still change it in the app UI).
+You can still change this in the app UI.
 
-### 4. Run the script
+### 5. Run the script
 
 ```bash
 python mediux_titlecards_gui.py
 ```
+
+Paste your copied YAML into the app and click "Start Download":
+
+![Paste YAML and Download](img/img3.png)
+
+You'll see progress and log output:
+
+![Download in Progress](img/img4.png)
 
 ---
 
@@ -74,7 +93,7 @@ python -m pyinstaller --noconsole --onefile --icon=mediuxdownload.ico mediux_tit
 
 > Ensure `mediuxdownload.ico` is in the same folder.
 
-The `.exe` will be in the `dist/` folder.
+The `.exe` will be available in the `dist/` folder.
 
 ---
 
@@ -83,7 +102,7 @@ The `.exe` will be in the `dist/` folder.
 Downloaded images are saved to:
 
 ```
-<DEFAULT_FOLDER>/Show Title (Year)/Season N/<Episode Filename>.jpg
+<Destination Folder>/Show Title (Year)/Season N/<Episode Filename>.jpg
 ```
 
 Example:
@@ -91,6 +110,10 @@ Example:
 ```
 D:/Title Cards/Andor (2022)/Season 1/Andor (2022) - S01E01 - Kassa.jpg
 ```
+
+Example Output:
+
+![Example Output](img/img5.png)
 
 ---
 
