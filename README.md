@@ -83,7 +83,7 @@ The `.exe` will be in the `dist/` folder.
 Downloaded images are saved to:
 
 ```
-<Destination Folder>/Show Title (Year)/Season N/<Episode Filename>.jpg
+<DEFAULT_FOLDER>/Show Title (Year)/Season N/<Episode Filename>.jpg
 ```
 
 Example:
