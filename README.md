@@ -27,19 +27,9 @@ pip install requests pyyaml
 
 ## 🛠️ How to Use
 
-### 1. Copy YAML from Mediux
+### 1. Clone this repository or [download `mediux_titlecards_gui.py`](./mediux_titlecards_gui.py)
 
-Click the `YAML` button on a Mediux set page to copy the configuration.
-
-![Copy YAML from Mediux](img/img1.png)
-
-Then copy the generated YAML block:
-
-![YAML Config](img/img2.png)
-
-### 2. Clone this repository or [download `mediux_titlecards_gui.py`](./mediux_titlecards_gui.py).
-
-### 3. Insert your TMDb API key
+### 2. Insert your TMDb API key
 
 Open `mediux_titlecards_gui.py` and replace:
 
@@ -49,7 +39,7 @@ TMDB_API_KEY = "INSERT_TMDB_API_KEY"
 
 with your personal API key from [TMDb Settings](https://www.themoviedb.org/settings/api).
 
-### 4. Set your preferred default download location
+### 3. Set your preferred default download location
 
 Edit the `DEFAULT_FOLDER` variable in the script:
 
@@ -59,11 +49,21 @@ DEFAULT_FOLDER = r"C:/Default/Destination/TitleCards"
 
 You can still change this in the app UI.
 
-### 5. Run the script
+### 4. Run the script
 
 ```bash
 python mediux_titlecards_gui.py
 ```
+
+### 5. Copy YAML from Mediux
+
+Click the `YAML` button on a Mediux set page to copy the configuration.
+
+![Copy YAML from Mediux](img/img1.png)
+
+Then copy the generated YAML block:
+
+![YAML Config](img/img2.png)
 
 Paste your copied YAML into the app and click "Start Download":
 
@@ -75,6 +75,26 @@ You'll see progress and log output:
 
 ---
 
+
+## 📂 Folder Structure
+
+Downloaded images are saved to:
+
+```
+<Destination Folder>/Show Title (Year)/Season N/<Episode Filename>.jpg
+```
+
+Example:
+
+```
+D:/Title Cards/Andor (2022)/Season 1/Andor (2022) - S01E01 - Kassa.jpg
+```
+
+Example Output:
+
+![Example Output](img/img5.png)
+
+---
 ## 💾 Convert to EXE (Optional)
 
 To turn the script into a standalone executable:
@@ -94,26 +114,6 @@ python -m pyinstaller --noconsole --onefile --icon=mediuxdownload.ico mediux_tit
 > Ensure `mediuxdownload.ico` is in the same folder.
 
 The `.exe` will be available in the `dist/` folder.
-
----
-
-## 📂 Folder Structure
-
-Downloaded images are saved to:
-
-```
-<Destination Folder>/Show Title (Year)/Season N/<Episode Filename>.jpg
-```
-
-Example:
-
-```
-D:/Title Cards/Andor (2022)/Season 1/Andor (2022) - S01E01 - Kassa.jpg
-```
-
-Example Output:
-
-![Example Output](img/img5.png)
 
 ---
 
