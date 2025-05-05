@@ -1,6 +1,6 @@
 # 🎞️ Mediux YAML Downloader
 
-A Windows GUI tool to download episode poster images based on Mediux YAML configuration files and The Movie Database (TMDb) metadata.
+A Windows GUI tool to download episode title cards based on Mediux YAML configuration files and The Movie Database (TMDb) metadata.
 
 ## 📦 Features
 
