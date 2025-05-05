@@ -117,6 +117,3 @@ Example Output:
 
 ---
 
-## 📜 License
-
-MIT License
