@@ -178,8 +178,6 @@ def process_yaml(yaml_text, output_widget, base_folder, progress_var, progress_m
 
     log("All done.", output_widget)
 
-# === GUI ===
-
 def start_thread(yaml_input, output_widget, folder_entry, progress_var, progress_max):
     base_folder = folder_entry.get().strip()
     config["download_path"] = base_folder
@@ -199,6 +197,17 @@ def browse_folder(entry):
         entry.insert(0, folder)
         config["download_path"] = folder
         save_config(config)
+
+def enable_right_click_menu(widget):
+    menu = tk.Menu(widget, tearoff=0)
+    menu.add_command(label="Cut", command=lambda: widget.event_generate("<<Cut>>"))
+    menu.add_command(label="Copy", command=lambda: widget.event_generate("<<Copy>>"))
+    menu.add_command(label="Paste", command=lambda: widget.event_generate("<<Paste>>"))
+
+    def show_menu(event):
+        menu.tk_popup(event.x_root, event.y_root)
+
+    widget.bind("<Button-3>", show_menu)
 
 def main():
     root = tk.Tk()
@@ -223,6 +232,7 @@ def main():
     ttk.Label(root, text="Paste YAML:").pack(anchor=tk.W)
     yaml_input = scrolledtext.ScrolledText(root, height=15, font=("Consolas", 10), wrap=tk.WORD)
     yaml_input.pack(fill=tk.BOTH, expand=True, pady=5)
+    enable_right_click_menu(yaml_input)
 
     progress_var = tk.IntVar()
     progress_max = tk.IntVar()
