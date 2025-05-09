@@ -1,3 +1,5 @@
+# mediux_titlecards_gui.py
+
 import tkinter as tk
 from tkinter import ttk, filedialog, scrolledtext
 import threading
@@ -6,10 +8,11 @@ import yaml
 import requests
 from datetime import datetime
 from io import StringIO
-
+import sys
 import json
 from tkinter import simpledialog, messagebox
 
+VERSION = "1.0"
 CONFIG_FILE = "userconfig.json"
 
 def load_config():
@@ -36,7 +39,7 @@ if not TMDB_API_KEY:
         save_config(config)
     else:
         messagebox.showerror("Error", "TMDB API Key is required.", parent=temp_root)
-        exit(1)
+        sys.exit(1)
     temp_root.destroy()
 
 def change_api_key(root):
@@ -47,6 +50,9 @@ def change_api_key(root):
         config["TMDB_API_KEY"] = new_key
         save_config(config)
         messagebox.showinfo("Success", "TMDB API Key updated successfully.", parent=root)
+
+def show_version_info(root):
+    messagebox.showinfo("About", f"Mediux YAML Downloader\nVersion {VERSION}", parent=root)
 
 def log(message, output_widget):
     timestamped = f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}"
@@ -196,13 +202,15 @@ def browse_folder(entry):
 
 def main():
     root = tk.Tk()
-    root.title("Mediux Title Card Downloader")
+    root.title("Mediux YAML Downloader")
     root.geometry("850x720")
     root.configure(padx=20, pady=20)
 
     menubar = tk.Menu(root)
     settings_menu = tk.Menu(menubar, tearoff=0)
     settings_menu.add_command(label="Change TMDB API Key", command=lambda: change_api_key(root))
+    settings_menu.add_separator()
+    settings_menu.add_command(label="About / Version", command=lambda: show_version_info(root))
     menubar.add_cascade(label="Settings", menu=settings_menu)
     root.config(menu=menubar)
 
