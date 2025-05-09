@@ -1,16 +1,26 @@
 # 🎞️ Mediux YAML Downloader
 
-A desktop GUI tool (tested on Windows) to download episode title cards based on Mediux YAML configuration files and The Movie Database (TMDb) metadata.
+A desktop GUI tool (tested on Windows) to download episode title cards, show posters, season posters, and backgrounds based on Mediux YAML configuration files and The Movie Database (TMDb) metadata.
+
+---
 
 ## 📦 Features
 
 - Paste YAML from [Mediux](https://mediux.pro) directly.
 - Automatically fetch show titles and episode names from TMDb.
-- Downloads missing episode title cards into the correct folder structure.
-- Skips existing images automatically.
-- Customizable destination directory.
-- Built-in progress bar and logging.
-- Easy to convert into a standalone `.exe`.
+- Downloads:
+  - 🖼️ Missing **episode title cards**
+  - 🎭 **Show posters** as `poster.jpg`
+  - 🌌 **Backgrounds** as `background.jpg`
+  - 📦 **Season posters** as `seasonXX.jpg`, or `specials.jpg` for Season 0
+- Folder `Season 0` is renamed to `Specials`
+- Skips already downloaded images automatically
+- Persistent settings:
+  - Remembers your TMDb API key
+  - Remembers your last used destination folder
+- Built-in progress bar and real-time logging
+- GUI for folder browsing and API key management
+- Easy to convert into a standalone `.exe`
 
 ---
 
@@ -29,33 +39,25 @@ pip install requests pyyaml
 
 ### 1. Clone this repository or [download `mediux_titlecards_gui.py`](./mediux_titlecards_gui.py)
 
-### 2. Insert your TMDb API key
+---
 
-Open `mediux_titlecards_gui.py` and replace:
-
-```python
-TMDB_API_KEY = "INSERT_TMDB_API_KEY"
-```
-
-with your personal API key from [TMDb Settings](https://www.themoviedb.org/settings/api).
-
-### 3. Set your preferred default download location
-
-Edit the `DEFAULT_FOLDER` variable in the script:
-
-```python
-DEFAULT_FOLDER = r"C:/Default/Destination/TitleCards"
-```
-
-You can still change this in the app UI.
-
-### 4. Run the script
+### 2. Run the script
 
 ```bash
 python mediux_titlecards_gui.py
 ```
 
-### 5. Copy YAML from Mediux
+---
+
+### 3. First-time setup: API Key and Folder
+
+- On first launch, you'll be prompted to enter your TMDb API key (one-time).
+- Choose or confirm a download destination folder.
+- These preferences are saved in `userconfig.json`.
+
+---
+
+### 4. Copy YAML from Mediux
 
 Click the `YAML` button on a Mediux set page to copy the configuration.
 
@@ -69,19 +71,27 @@ Paste your copied YAML into the app and click "Start Download":
 
 ![Paste YAML and Download](img/img3.png)
 
-You'll see progress and log output:
+You'll see download progress and logs:
 
 ![Download in Progress](img/img4.png)
 
 ---
-
 
 ## 📂 Folder Structure
 
 Downloaded images are saved to:
 
 ```
-<Destination Folder>/Show Title (Year)/Season N/<Episode Filename>.jpg
+<Destination Folder>/
+  └── Show Title (Year)/
+      ├── poster.jpg
+      ├── background.jpg
+      ├── Specials/                  # if season 0 exists
+      │   ├── specials.jpg
+      │   └── Episode cards...
+      └── Season 01/
+          ├── season01.jpg
+          └── Episode cards...
 ```
 
 Example:
@@ -90,11 +100,8 @@ Example:
 D:/Title Cards/Andor (2022)/Season 1/Andor (2022) - S01E01 - Kassa.jpg
 ```
 
-Example Output:
-
-![Example Output](img/img5.png)
-
 ---
+
 ## 💾 Convert to EXE (Optional)
 
 To turn the script into a standalone executable:
@@ -116,4 +123,3 @@ python -m pyinstaller --noconsole --onefile --icon=mediuxdownload.ico mediux_tit
 The `.exe` will be available in the `dist/` folder.
 
 ---
-
