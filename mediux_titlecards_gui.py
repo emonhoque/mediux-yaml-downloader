@@ -7,8 +7,46 @@ import requests
 from datetime import datetime
 from io import StringIO
 
-TMDB_API_KEY = "INSERT_TMDB_API_KEY"
-DEFAULT_FOLDER = r"C:/Default/Destination/TitleCards"
+import json
+from tkinter import simpledialog, messagebox
+
+CONFIG_FILE = "userconfig.json"
+
+def load_config():
+    try:
+        with open(CONFIG_FILE, 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+def save_config(data):
+    with open(CONFIG_FILE, 'w') as f:
+        json.dump(data, f, indent=2)
+
+config = load_config()
+TMDB_API_KEY = config.get("TMDB_API_KEY", "")
+DEFAULT_FOLDER = config.get("download_path", r"C:/Default/Destination/TitleCards")
+
+if not TMDB_API_KEY:
+    temp_root = tk.Tk()
+    temp_root.withdraw()
+    TMDB_API_KEY = simpledialog.askstring("TMDB API Key", "Enter your TMDB API Key:", parent=temp_root)
+    if TMDB_API_KEY:
+        config["TMDB_API_KEY"] = TMDB_API_KEY
+        save_config(config)
+    else:
+        messagebox.showerror("Error", "TMDB API Key is required.", parent=temp_root)
+        exit(1)
+    temp_root.destroy()
+
+def change_api_key(root):
+    global TMDB_API_KEY
+    new_key = simpledialog.askstring("Update TMDB API Key", "Enter new TMDB API Key:", parent=root)
+    if new_key:
+        TMDB_API_KEY = new_key
+        config["TMDB_API_KEY"] = new_key
+        save_config(config)
+        messagebox.showinfo("Success", "TMDB API Key updated successfully.", parent=root)
 
 def log(message, output_widget):
     timestamped = f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}"
@@ -80,9 +118,34 @@ def process_yaml(yaml_text, output_widget, base_folder, progress_var, progress_m
         show_folder = os.path.join(base_folder, f"{title} ({year})")
         os.makedirs(show_folder, exist_ok=True)
 
+        show_poster_url = show_data.get("url_poster")
+        show_background_url = show_data.get("url_background")
+        if show_poster_url:
+            ext = os.path.splitext(show_poster_url)[1] or ".jpg"
+            dest = os.path.join(show_folder, f"poster{ext}")
+            if not os.path.isfile(dest):
+                download_image(show_poster_url, dest)
+                log(f"Downloaded show poster: {dest}", output_widget)
+        if show_background_url:
+            ext = os.path.splitext(show_background_url)[1] or ".jpg"
+            dest = os.path.join(show_folder, f"background{ext}")
+            if not os.path.isfile(dest):
+                download_image(show_background_url, dest)
+                log(f"Downloaded background: {dest}", output_widget)
+
         for season_num, season_data in show_data.get("seasons", {}).items():
-            season_folder = os.path.join(show_folder, f"Season {season_num}")
+            season_name = "Specials" if str(season_num) == "0" else f"Season {int(season_num):02}"
+            season_folder = os.path.join(show_folder, season_name)
             os.makedirs(season_folder, exist_ok=True)
+
+            season_poster_url = season_data.get("url_poster")
+            if season_poster_url:
+                ext = os.path.splitext(season_poster_url)[1] or ".jpg"
+                season_poster_name = f"specials{ext}" if str(season_num) == "0" else f"season{int(season_num):02}{ext}"
+                dest = os.path.join(season_folder, season_poster_name)
+                if not os.path.isfile(dest):
+                    download_image(season_poster_url, dest)
+                    log(f"Downloaded season poster: {dest}", output_widget)
 
             episode_titles = get_episode_titles(tmdb_id, season_num)
             for episode_num, ep_data in season_data.get("episodes", {}).items():
@@ -113,6 +176,8 @@ def process_yaml(yaml_text, output_widget, base_folder, progress_var, progress_m
 
 def start_thread(yaml_input, output_widget, folder_entry, progress_var, progress_max):
     base_folder = folder_entry.get().strip()
+    config["download_path"] = base_folder
+    save_config(config)
     threading.Thread(target=process_yaml, args=(
         yaml_input.get("1.0", tk.END),
         output_widget,
@@ -126,6 +191,8 @@ def browse_folder(entry):
     if folder:
         entry.delete(0, tk.END)
         entry.insert(0, folder)
+        config["download_path"] = folder
+        save_config(config)
 
 def main():
     root = tk.Tk()
@@ -133,9 +200,15 @@ def main():
     root.geometry("850x720")
     root.configure(padx=20, pady=20)
 
+    menubar = tk.Menu(root)
+    settings_menu = tk.Menu(menubar, tearoff=0)
+    settings_menu.add_command(label="Change TMDB API Key", command=lambda: change_api_key(root))
+    menubar.add_cascade(label="Settings", menu=settings_menu)
+    root.config(menu=menubar)
+
     ttk.Label(root, text="Download Destination:").pack(anchor=tk.W)
     folder_entry = ttk.Entry(root, width=80)
-    folder_entry.insert(0, DEFAULT_FOLDER)
+    folder_entry.insert(0, config.get("download_path", DEFAULT_FOLDER))
     folder_entry.pack(fill=tk.X, pady=5)
     ttk.Button(root, text="Browse...", command=lambda: browse_folder(folder_entry)).pack(pady=(0, 10))
 
