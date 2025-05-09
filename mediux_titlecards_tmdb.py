@@ -12,7 +12,7 @@ import sys
 import json
 from tkinter import simpledialog, messagebox
 
-VERSION = "1.0"
+VERSION = "1.3"
 CONFIG_FILE = "userconfig.json"
 
 def load_config():
