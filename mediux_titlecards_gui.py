@@ -147,7 +147,7 @@ def process_yaml(yaml_text, output_widget, base_folder, progress_var, progress_m
                 log(f"Downloaded background: {dest}", output_widget)
 
         for season_num, season_data in show_data.get("seasons", {}).items():
-            season_name = "Specials" if str(season_num) == "0" else f"Season {int(season_num):02}"
+            season_name = "Specials" if str(season_num) == "0" else f"Season {int(season_num)}"
             season_folder = os.path.join(show_folder, season_name)
             os.makedirs(season_folder, exist_ok=True)
 
