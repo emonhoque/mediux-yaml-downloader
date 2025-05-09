@@ -121,7 +121,6 @@ def process_yaml(yaml_text, output_widget, base_folder, progress_var, progress_m
             log(f"Could not get title/year for {tvdb_id}", output_widget)
             continue
 
-        # 🔍 Try to find existing folder that starts with "Title (Year"
         expected_prefix = f"{title} ({year})"
         show_folder = os.path.join(base_folder, expected_prefix)
         for entry in os.listdir(base_folder):
