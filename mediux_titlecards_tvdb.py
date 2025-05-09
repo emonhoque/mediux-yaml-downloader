@@ -1,4 +1,4 @@
-# mediux_titlecards_gui_tvdb.py
+# mediux_titlecards_tvdb.py
 
 import tkinter as tk
 from tkinter import ttk, filedialog, scrolledtext, simpledialog, messagebox
