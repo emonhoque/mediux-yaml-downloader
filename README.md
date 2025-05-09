@@ -89,7 +89,7 @@ Downloaded images are saved to:
       ├── Specials/                  # if season 0 exists
       │   ├── specials.jpg
       │   └── Episode cards...
-      └── Season 01/
+      └── Season 1/
           ├── season01.jpg
           └── Episode cards...
 ```
