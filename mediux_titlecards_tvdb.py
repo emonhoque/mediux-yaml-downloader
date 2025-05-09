@@ -11,7 +11,7 @@ from io import StringIO
 import json
 import sys
 
-VERSION = "1.1"
+VERSION = "1.3"
 CONFIG_FILE = "userconfig.json"
 DEFAULT_FOLDER = r"C:/Default/Destination/TitleCards"
 
