@@ -1,13 +1,17 @@
 # 🎞️ Mediux YAML Downloader
 
-A desktop GUI tool (tested on Windows) to download episode title cards, show posters, season posters, and backgrounds based on Mediux YAML configuration files and The Movie Database (TMDb) metadata.
+A desktop GUI tool (tested on Windows) to download episode title cards, show posters, season posters, and backgrounds based on Mediux YAML configuration files using either:
+
+- **TMDb (The Movie Database)**  
+- **TVDb (TheTVDB v4)**
 
 ---
 
 ## 📦 Features
 
-- Paste YAML from [Mediux](https://mediux.pro) directly.
-- Automatically fetch show titles and episode names from TMDb.
+- Paste YAML from [Mediux](https://mediux.pro) directly
+- Choose **TMDb** or **TVDb** version based on your metadata preference
+- Automatically fetch show titles and episode names
 - Downloads:
   - 🖼️ Missing **episode title cards**
   - 🎭 **Show posters** as `poster.jpg`
@@ -16,8 +20,8 @@ A desktop GUI tool (tested on Windows) to download episode title cards, show pos
 - Folder `Season 0` is renamed to `Specials`
 - Skips already downloaded images automatically
 - Persistent settings:
-  - Remembers your TMDb API key
-  - Remembers your last used destination folder
+  - Remembers your **API key** (TMDb or TVDb)
+  - Remembers your last used download folder
 - Built-in progress bar and real-time logging
 - GUI for folder browsing and API key management
 - Easy to convert into a standalone `.exe`
@@ -27,7 +31,7 @@ A desktop GUI tool (tested on Windows) to download episode title cards, show pos
 ## ✅ Requirements
 
 - Python 3.8 or higher
-- Required Python packages:
+- Install dependencies:
 
 ```bash
 pip install requests pyyaml
@@ -35,43 +39,53 @@ pip install requests pyyaml
 
 ---
 
-## 🛠️ How to Use
+## 🚀 Which Version Should I Use?
 
-### 1. Clone this repository or [download `mediux_titlecards_gui.py`](./mediux_titlecards_gui.py)
+Download or run **one** of the following depending on which service you'd like to use for metadata:
+
+| File | API Used | Requires |
+|------|----------|----------|
+| `mediux_titlecards_tmdb.py` | TMDb | TMDb API Key (Required) |
+| `mediux_titlecards_tvdb.py` | TVDb | TVDb API Key (Required) + PIN (Optional) |
+
+You can find both in this repo.
 
 ---
 
-### 2. Run the script
+## 🛠️ How to Use
+
+### 1. Run your preferred script
 
 ```bash
-python mediux_titlecards_gui.py
+# For TMDb
+python mediux_titlecards_tmdb.py
+
+# For TVDb
+python mediux_titlecards_tvdb.py
 ```
 
 ---
 
-### 3. First-time setup: API Key and Folder
+### 2. First-time setup
 
-- On first launch, you'll be prompted to enter your TMDb API key (one-time).
-- Choose or confirm a download destination folder.
-- These preferences are saved in `userconfig.json`.
+- The app will ask for your **API key** (TMDb or TVDb depending on the version)
+- For TVDb, **PIN is optional**
+- Choose a destination folder
+- Both are saved in `userconfig.json`
 
 ---
 
-### 4. Copy YAML from Mediux
+### 3. Copy YAML from Mediux
 
-Click the `YAML` button on a Mediux set page to copy the configuration.
+Click the `YAML` button on any Mediux set page.
 
 ![Copy YAML from Mediux](img/img1.png)
 
-Then copy the generated YAML block:
-
-![YAML Config](img/img2.png)
-
-Paste your copied YAML into the app and click "Start Download":
+Then paste the YAML block into the app and click **Start Download**:
 
 ![Paste YAML and Download](img/img3.png)
 
-You'll see download progress and logs:
+Watch the download progress and logs:
 
 ![Download in Progress](img/img4.png)
 
@@ -86,7 +100,7 @@ Downloaded images are saved to:
   └── Show Title (Year)/
       ├── poster.jpg
       ├── background.jpg
-      ├── Specials/                  # if season 0 exists
+      ├── Specials/
       │   ├── specials.jpg
       │   └── Episode cards...
       └── Season 1/
@@ -104,22 +118,19 @@ D:/Title Cards/Andor (2022)/Season 1/Andor (2022) - S01E01 - Kassa.jpg
 
 ## 💾 Convert to EXE (Optional)
 
-To turn the script into a standalone executable:
-
-### 1. Install `pyinstaller`:
+To build a Windows executable:
 
 ```bash
 pip install pyinstaller
+python -m pyinstaller --noconsole --onefile --icon=mediuxdownload.ico mediux_titlecards_tmdb.py
+# Or
+python -m pyinstaller --noconsole --onefile --icon=mediuxdownload.ico mediux_titlecards_tvdb.py
 ```
 
-### 2. Run the following in the script directory:
-
-```bash
-python -m pyinstaller --noconsole --onefile --icon=mediuxdownload.ico mediux_titlecards_gui.py
-```
-
-> Ensure `mediuxdownload.ico` is in the same folder.
-
-The `.exe` will be available in the `dist/` folder.
+The `.exe` will be located in the `dist/` folder.
 
 ---
+
+## 📘 License
+
+MIT © 2025 Emon Hoque
