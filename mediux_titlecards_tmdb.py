@@ -1,4 +1,4 @@
-# mediux_titlecards_gui.py
+# mediux_titlecards_tmdb.py
 
 import tkinter as tk
 from tkinter import ttk, filedialog, scrolledtext
